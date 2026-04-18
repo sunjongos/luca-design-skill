@@ -1,0 +1,14 @@
+# Environment variables
+.env
+.env.*
+
+# Claude config
+.claude.json
+
+# IDE settings
+.vscode/
+.idea/
+
+# OS generated files
+.DS_Store
+Thumbs.db
