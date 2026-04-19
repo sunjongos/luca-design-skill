@@ -17,9 +17,13 @@ description: Claude Design 기능을 대체하여 NDB/LCK/DoctorEye 기반 UI를
     - 사이버/연구/첨단 → **LCK Lab** 
     - 헬스케어/부드러움 → **Doctor Eye**
 
-### 2단계: 렌더링 스웜(Swarm) 가동
-- 테마가 픽스되면, 프롬프트 최상단에 테마의 주요 색상(Primary Color)과 둥근 모서리 속성 등 디자인 시스템 메타데이터를 강제 주입(**Token Injection**)합니다.
-- `Stitch MCP`나 `gemini-multi-agent teams` 체계를 백그라운드에서 활용해 UI 컴포넌트들을 찍어냅니다. 만일 외부 툴의 400 에러 감지 시, 지체 없이 로컬에서 `Vite + React + Tailwind` 환경으로 하드 스캐폴딩(Hard Scaffolding)하는 Fail-Safe 로직으로 전환합니다.
+### 2단계: 렌더링 스웜(Swarm) 가동 및 Stitch MCP 최적화
+- 테마가 픽스되면, 프롬프트 최상단에 테마의 주요 색상(Primary Color)과 둥근 모서리 속성 등 메타데이터를 강제 주입(**Token Injection**)합니다.
+- **[핵심: Stitch MCP 연산 병목 제거]** `Stitch MCP`를 사용하여 화면을 생성(`generate_screen_from_text`)할 때, 구글 서버 연산 부하로 인한 3분 타임아웃(Time-out) 에러를 반드시 억제(Bypass)해야 합니다.
+  - 무거운 기본 모델 대신 **초경량 하이엔드 모델 (`modelId: GEMINI_3_FLASH`)** 을 명시적으로 파라미터에 강제 할당하십시오.
+  - 프롬프트에서 불필요한 장황한 묘사(예: 프리미엄 레이아웃, 복잡한 네온 등)를 제거하고 직관적인 UI 뼈대 구조로만 단순화(Down-sizing)하여 렌더링 체증을 뚫어냅니다.
+  - 시스템 `gcloud` 자격증명과 충돌하지 않도록 `mcp_config.json` 내 `GOOGLE_APPLICATION_CREDENTIALS: ""` 환경변수 덮어쓰기 블록을 반드시 유지해야 합니다.
+- 만약 이 최적화 모드로도 외부 API 서버 오류가 감지된다면, 지체 없이 로컬에서 `Vite + React + Tailwind` 환경으로 하드 스캐폴딩(Hard Scaffolding)하는 Fail-Safe 로직으로 전환합니다.
 
 ### 3단계: 보고 및 터미널 검증
 - 모든 디자인 화면(페이지) 제작이 끝나면, 즉시 브라우저나 VSCode에서 확인할 수 있도록 `walkthrough.md`에 최종 결과물 위치와 스크린샷 렌더링 명령어를 보고합니다.

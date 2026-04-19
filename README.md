@@ -11,10 +11,11 @@
 * **LCK Lab**: 연구소, 사이버, 데이터 모니터링, 첨단 대시보드 지향형 블루/블랙 테마
 * **Doctor Eye**: 헬스케어 플랫폼, B2C 모바일, 부드러움 지향형 테마
 
-### 2. 하이엔드 렌더링 스웜 (High-end Rendering Swarm)
+### 2. 하이엔드 렌더링 스웜 및 병목 돌파 로직 (High-end Rendering Swarm & Bottleneck Bypass)
 지정된 테마가 확보되면 즉각적으로 스웜(Swarm) 모델 기반 메타데이터 토큰 주입(Token Injection)을 실행합니다. 
-* Stitch MCP, gemini-multi-agent teams 등을 관현악단처럼 오케스트레이션하여 코드를 생산합니다.
-* 단 하나의 오류(400 에러 등) 발생 시 즉시 **하드 스캐폴딩(Vite + React + Tailwind)** 로직으로 Fail-Safe 전환을 수행하여 결점 없는 결과물을 보장합니다.
+* Stitch MCP 활용 시, 구글 백엔드 연산 부하(3분 Timeout) 방어를 위해 무조건 **`GEMINI_3_FLASH` 모델로 경량화**하고 묘사를 극히 단순화하는 병목 돌파 프롬프팅 규칙을 따릅니다.
+* 로컬의 기존 `gcloud` ADC(Application Default Credentials) 권한 꼬임을 방지하기 위해 `GOOGLE_APPLICATION_CREDENTIALS` 환경변수 블록을 강제 해제하는 아키텍처가 적용되어 있습니다.
+* 모델/프롬프트 최적화 이후에도 외부 서버 장애 발생 시, 즉시 **하드 스캐폴딩(Vite + React + Tailwind)** 로컬 렌더링 로직으로 Fail-Safe 전환을 수행하여 결점 없는 결과물을 보장합니다.
 
 ### 3. 무결점 보안 (Security First)
 * Stitch MCP API Key (`STITCH_API_KEY`)를 포함한 모든 환경 변수 `.env` 및 `.claude.json`는 본 Repository에 공유되지 않습니다.
